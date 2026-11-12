@@ -1,8 +1,7 @@
 name: Terraform CD
 
 on: 
-  push:
-    branches: [ "main"]
+  workflow_dipatch:
 
 jobs:
   deploy: 
@@ -23,7 +22,6 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
