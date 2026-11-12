@@ -8,7 +8,25 @@ on:
         options:
           - apply
           - destroy
-        description: Please type apply or destroy
+        description: Please select apply or destroy
+
+
+      region:
+        type: choice
+        options:
+          - us-east-1
+          - us-east-2
+          - us-west-1
+          - us-west-2
+        description: Please select region
+
+      instance-type::
+        type: string
+        description: Please provide instance type
+
+      instance-name:
+        type: string
+        description: Please provide instance name
 jobs:
   deploy: 
      runs-on: ubuntu-latest
@@ -33,7 +51,7 @@ jobs:
         run: |
           if [[ ${{ inputs.action }} = "apply" ]]
           then
-            terraform apply -auto-approve -input=false
+            terraform apply -auto-approve 
           else 
-          terraform destroy -auto-approve -input=false
+          terraform destroy -auto-approve 
           fi

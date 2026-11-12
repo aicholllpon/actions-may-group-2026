@@ -39,4 +39,3 @@ resource "aws_instance" "example" {
 variable "region" {}
 variable "instance_type" {}
 variable "instance_name" {}
-
