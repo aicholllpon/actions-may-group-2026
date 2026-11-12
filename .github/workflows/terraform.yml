@@ -1,6 +1,6 @@
 name: Terraform CD
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       action:
@@ -9,7 +9,6 @@ on:
           - apply
           - destroy
         description: Please select apply or destroy
-
 
       region:
         type: choice
@@ -20,26 +19,27 @@ on:
           - us-west-2
         description: Please select region
 
-      instance-type::
+      instance_type:
         type: string
         description: Please provide instance type
 
-      instance-name:
+      instance_name:
         type: string
         description: Please provide instance name
+
 jobs:
-  deploy: 
-     runs-on: ubuntu-latest
-     steps:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v7
         name: Checkout repository
 
       - name: Create tfvars file
         run: |
           cat <<EOF > terraform.tfvars
-          ami_id = "${{ inputs.ami_id }}"
-          instance_type = "${{ inputs.instance_type }}"
           region = "${{ inputs.region }}"
+          instance_type = "${{ inputs.instance_type }}"
+          instance_name = "${{ inputs.instance_name }}"
           EOF
 
       - name: Setup Terraform
@@ -50,16 +50,16 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
+          aws-region: ${{ inputs.region }}
 
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Apply or Destroy
         run: |
-          if [[ ${{ inputs.action }} = "apply" ]]
+          if [[ "${{ inputs.action }}" = "apply" ]]
           then
-            terraform apply -auto-approve
+            terraform apply -auto-approve -input=false
           else
-            terraform destroy -auto-approve
+            terraform destroy -auto-approve -input=false
           fi
