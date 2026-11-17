@@ -2,7 +2,7 @@ name: Cronjob Workflow
 
 on: 
   schedule: 
-    - cron: 0 3 * * *
+    - cron: "* * * * *"
 
   workflow_dispatch:
     inputs:
@@ -23,16 +23,19 @@ on:
           - us-west-1
           - us-west-2
         description: Please select region
+        default: us-east-2
 
       instance-type:
         required: true
         type: string
         description: Please provide instance type
+        default: t3.micro
 
       instance-name:
         required: true
         type: string
         description: Please provide instance name
+        default: cron
 jobs:
   deploy: 
      runs-on: ubuntu-latest
