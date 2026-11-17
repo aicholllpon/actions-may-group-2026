@@ -1,10 +1,10 @@
 name: Cronjob Workflow
 
 on: 
-schedule: 
-  - cron: 0 3 * * *
+  schedule: 
+    - cron: 0 3 * * *
 
-    workflow_dispatch:
+  workflow_dispatch:
     inputs:
       action:
         type: choice
@@ -12,6 +12,7 @@ schedule:
           - apply
           - destroy
         description: Please select apply or destroy
+        default: apply
 
 
       region:
